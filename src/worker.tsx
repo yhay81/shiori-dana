@@ -147,13 +147,13 @@ const normalizeNdlItems = (xml: string): BookResult[] => {
 const searchNdl = async (query: string): Promise<BookResult[]> => {
   const compact = query.trim().replace(/\s+/g, " ");
   const isbn = compact.replace(/[^0-9X]/gi, "");
-  const parameters = new URLSearchParams({ cnt: "20" });
+  const parameters = new URLSearchParams({ cnt: "12" });
   if (/^(?:\d{9}[\dX]|\d{13})$/i.test(isbn)) parameters.set("isbn", isbn);
   else parameters.set("title", compact);
 
   const upstream = await fetch(`${ndlOrigin}/api/opensearch?${parameters.toString()}`, {
     headers: { accept: "application/xml, text/xml;q=0.9" },
-    signal: AbortSignal.timeout(8_000),
+    signal: AbortSignal.timeout(20_000),
   });
   if (!upstream.ok) throw new Error(`NDL returned ${upstream.status}`);
   const xml = await upstream.text();

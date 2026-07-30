@@ -104,7 +104,7 @@ if (-not $Worker.Contains("45 * 86400") -or
     ([regex]::Matches($Worker, 'INSERT INTO product_events').Count -ne 1)) {
     throw "Expected one telemetry write plus one content-free search proxy"
 }
-if (-not $Worker.Contains('new URLSearchParams({ cnt: "20" })') -or
+if (-not $Worker.Contains('new URLSearchParams({ cnt: "12" })') -or
     -not $Worker.Contains('candidate.hostname === "ndlsearch.ndl.go.jp"') -or
     $Worker.Contains("c.env.DB.prepare(`INSERT") -and $Worker.Contains("query,")) {
     throw "Expected bounded NDL search and safe result links without query persistence"

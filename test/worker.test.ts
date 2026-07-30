@@ -178,7 +178,7 @@ describe("NDL book search", () => {
       expect(url.origin).toBe("https://ndlsearch.ndl.go.jp");
       expect(url.pathname).toBe("/api/opensearch");
       expect(url.searchParams.get("title")).toBe("こころ");
-      expect(url.searchParams.get("cnt")).toBe("20");
+      expect(url.searchParams.get("cnt")).toBe("12");
       return new Response(ndlXml, { headers: { "content-type": "application/xml" } });
     });
     vi.stubGlobal("fetch", upstream);
