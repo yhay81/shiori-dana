@@ -1286,7 +1286,9 @@ select:focus {
 }
 
 .search-form {
+  display: grid;
   padding: 24px 28px 0;
+  gap: 13px;
 }
 
 .search-field {

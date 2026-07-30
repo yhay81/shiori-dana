@@ -514,6 +514,7 @@ const renderSearchResults = (results) => {
 
 const searchBooks = async (form) => {
   const query = fieldValue(form, "query").trim();
+  const author = fieldValue(form, "author").trim();
   if (elements.searchState) elements.searchState.textContent = "書誌を探しています…";
   clear(elements.searchResults);
   const submit = form.querySelector("button[type='submit']");
@@ -522,7 +523,7 @@ const searchBooks = async (form) => {
     const response = await fetch("/api/books/search", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ query }),
+      body: JSON.stringify({ query, author }),
     });
     const payload = await response.json();
     if (!response.ok || !Array.isArray(payload.books)) throw new Error("search failed");
@@ -530,7 +531,9 @@ const searchBooks = async (form) => {
     if (elements.searchState) {
       elements.searchState.textContent = payload.books.length
         ? `${payload.books.length}件見つかりました。`
-        : "該当する本が見つかりませんでした。手入力もできます。";
+        : author
+          ? "該当する本が見つかりませんでした。手入力もできます。"
+          : "見つかりませんでした。著者名を加えるか、手入力してください。";
     }
     track("book_searched");
   } catch {

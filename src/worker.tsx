@@ -144,12 +144,19 @@ const normalizeNdlItems = (xml: string): BookResult[] => {
   return results;
 };
 
-const searchNdl = async (query: string): Promise<BookResult[]> => {
+const searchable = (value: string) =>
+  value
+    .normalize("NFKC")
+    .toLocaleLowerCase("ja")
+    .replace(/[\s,、・:：\-‐―—（）()[\]「」『』]/g, "");
+
+const searchNdl = async (query: string, author: string): Promise<BookResult[]> => {
   const compact = query.trim().replace(/\s+/g, " ");
   const isbn = compact.replace(/[^0-9X]/gi, "");
   const parameters = new URLSearchParams({ cnt: "12" });
   if (/^(?:\d{9}[\dX]|\d{13})$/i.test(isbn)) parameters.set("isbn", isbn);
   else parameters.set("title", compact);
+  if (author) parameters.set("creator", author.trim().replace(/\s+/g, " "));
 
   const upstream = await fetch(`${ndlOrigin}/api/opensearch?${parameters.toString()}`, {
     headers: { accept: "application/xml, text/xml;q=0.9" },
@@ -158,7 +165,23 @@ const searchNdl = async (query: string): Promise<BookResult[]> => {
   if (!upstream.ok) throw new Error(`NDL returned ${upstream.status}`);
   const xml = await upstream.text();
   if (xml.length > 2_000_000) throw new Error("NDL response too large");
-  return normalizeNdlItems(xml);
+  const results = normalizeNdlItems(xml);
+  if (/^(?:\d{9}[\dX]|\d{13})$/i.test(isbn)) return results;
+  const wantedTitle = searchable(compact);
+  const wantedAuthor = searchable(author);
+  return results
+    .filter((book) => {
+      const title = searchable(book.title);
+      const creator = searchable(book.author);
+      return title.includes(wantedTitle) && (!wantedAuthor || creator.includes(wantedAuthor));
+    })
+    .sort((left, right) => {
+      const leftTitle = searchable(left.title);
+      const rightTitle = searchable(right.title);
+      const leftRank = leftTitle === wantedTitle ? 0 : leftTitle.startsWith(wantedTitle) ? 1 : 2;
+      const rightRank = rightTitle === wantedTitle ? 0 : rightTitle.startsWith(wantedTitle) ? 1 : 2;
+      return leftRank - rightRank || left.title.localeCompare(right.title, "ja");
+    });
 };
 
 const Logo = () => (
@@ -559,9 +582,13 @@ const Home = () => (
             </button>
           </div>
         </label>
+        <label>
+          <span>著者で絞る（任意）</span>
+          <input autocomplete="off" maxLength={80} name="author" placeholder="例：夏目漱石" />
+        </label>
       </form>
       <p class="search-state" data-search-state aria-live="polite">
-        書名かISBNを入力してください。
+        書名かISBNを入力してください。同名が多い本は著者で絞れます。
       </p>
       <div class="search-results" data-search-results></div>
       <div class="search-foot">
@@ -761,7 +788,7 @@ const Guide = () => (
             <span class="step-number">01</span>
             <h2>本を見つける</h2>
             <p>
-              書名かISBNで国立国会図書館サーチを検索します。見つからない本は手入力でき、書名だけをまとめて貼ることもできます。
+              書名かISBNで国立国会図書館サーチを検索します。同名が多い本は著者で絞れます。見つからない本は手入力でき、書名だけをまとめて貼ることもできます。
             </p>
           </div>
         </li>
@@ -831,7 +858,7 @@ const Privacy = () => (
           <span class="privacy-symbol network">⌕</span>
           <h2>検索時だけ送るもの</h2>
           <p>
-            本を検索すると、入力した書名またはISBNを国立国会図書館サーチAPIへ送ります。栞棚の計測DBには保存しません。
+            本を検索すると、入力した書名またはISBNと任意の著者名を国立国会図書館サーチAPIへ送ります。栞棚の計測DBには保存しません。
           </p>
         </article>
         <article>
@@ -933,18 +960,20 @@ app.post("/api/books/search", async (c) => {
     !body ||
     typeof body !== "object" ||
     Array.isArray(body) ||
-    Object.keys(body).length !== 1 ||
-    !("query" in body)
+    !Object.keys(body).every((key) => key === "query" || key === "author") ||
+    !("query" in body) ||
+    Object.keys(body).length > 2
   ) {
     return c.json({ error: "invalid_request" }, 400);
   }
   const query = (body as { query?: unknown }).query;
-  if (!singleLine(query, 120) || String(query).trim().length < 2) {
+  const author = (body as { author?: unknown }).author ?? "";
+  if (!singleLine(query, 120) || String(query).trim().length < 2 || !singleLine(author, 80)) {
     return c.json({ error: "invalid_query" }, 400);
   }
 
   try {
-    return c.json({ books: await searchNdl(String(query)) });
+    return c.json({ books: await searchNdl(String(query), String(author)) });
   } catch {
     return c.json({ error: "search_unavailable" }, 502);
   }
