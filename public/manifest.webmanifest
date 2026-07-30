@@ -1,0 +1,16 @@
+{
+  "name": "栞棚",
+  "short_name": "栞棚",
+  "description": "読みたい本、読んでいる頁、読了日、私的な感想を、公開せず端末内へ残す読書棚",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f6f0e5",
+  "theme_color": "#f1eadc",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

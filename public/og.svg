@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="wall" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#f5efe3"/>
+      <stop offset="1" stop-color="#dcd0bc"/>
+    </linearGradient>
+    <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#aa7c57"/>
+      <stop offset="1" stop-color="#745039"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%">
+      <feDropShadow dx="0" dy="15" stdDeviation="14" flood-color="#4a3423" flood-opacity=".2"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" fill="#f1eadc"/>
+  <rect x="34" y="34" width="1132" height="562" rx="32" fill="url(#wall)" stroke="#c8b9a2" stroke-width="2"/>
+  <path d="M34 478h1132v118H34z" fill="url(#wood)"/>
+  <path d="M34 478h1132" stroke="#c59a70" stroke-width="14"/>
+  <path d="M34 42 490 34 708 410 182 354Z" fill="#fff8d9" opacity=".34"/>
+
+  <g filter="url(#shadow)" transform="translate(77 89)">
+    <rect width="457" height="297" rx="25" fill="#fffaf1" stroke="#d8cab5" stroke-width="2"/>
+    <g transform="translate(37 35)">
+      <rect width="43" height="55" rx="4 9 9 4" fill="#4d654e"/>
+      <path d="M28-3h8v39l-4-6-4 6Z" fill="#c96f4f"/>
+      <path d="M9 15h12M9 23h14M9 31h10" stroke="#fff" stroke-linecap="round" stroke-opacity=".6" stroke-width="2"/>
+    </g>
+    <text x="102" y="73" fill="#253127" font-family="'Yu Mincho','Hiragino Mincho ProN',serif" font-size="34" font-weight="700" letter-spacing="5">栞棚</text>
+    <text x="38" y="152" fill="#253127" font-family="'Yu Mincho','Hiragino Mincho ProN',serif" font-size="42" font-weight="700">読んだ頁を、棚に残す。</text>
+    <text x="40" y="202" fill="#756e62" font-family="system-ui,sans-serif" font-size="21">書名、途中の頁、読了日、私的なメモ。</text>
+    <text x="40" y="236" fill="#756e62" font-family="system-ui,sans-serif" font-size="21">公開せず、端末内の読書棚へ。</text>
+    <g transform="translate(38 258)">
+      <rect width="102" height="30" rx="15" fill="#dce5d8"/>
+      <circle cx="19" cy="15" r="5" fill="#4d654e"/>
+      <text x="32" y="21" fill="#354a39" font-family="system-ui,sans-serif" font-size="13" font-weight="700">登録なし</text>
+      <rect x="112" width="110" height="30" rx="15" fill="#f1dfd7"/>
+      <circle cx="131" cy="15" r="5" fill="#c96f4f"/>
+      <text x="144" y="21" fill="#8f4936" font-family="system-ui,sans-serif" font-size="13" font-weight="700">端末内保存</text>
+      <rect x="232" width="120" height="30" rx="15" fill="#e1e7eb"/>
+      <circle cx="251" cy="15" r="5" fill="#5a758a"/>
+      <text x="264" y="21" fill="#405b70" font-family="system-ui,sans-serif" font-size="13" font-weight="700">持ち出せる</text>
+    </g>
+  </g>
+
+  <g filter="url(#shadow)" transform="translate(665 184)">
+    <g transform="translate(0 80)">
+      <rect x="0" y="38" width="50" height="157" rx="4 9 3 3" fill="#d4a245"/>
+      <rect x="57" y="8" width="43" height="187" rx="4 9 3 3" fill="#5d745c"/>
+      <rect x="107" y="28" width="56" height="167" rx="4 9 3 3" fill="#c96f4f"/>
+      <rect x="170" y="0" width="48" height="195" rx="4 9 3 3" fill="#5a758a"/>
+      <path d="M198 0h10v112l-5-8-5 8Z" fill="#e7b85c"/>
+      <rect x="225" y="49" width="45" height="146" rx="4 9 3 3" fill="#986b77"/>
+      <path d="M8 64h34M65 34h27M116 53h38M178 25h31M233 72h29" stroke="#fff" stroke-linecap="round" stroke-opacity=".42" stroke-width="5"/>
+    </g>
+    <path d="M-32 272h346v24H-32z" fill="#8d6447"/>
+    <path d="M-32 295h346v10H-32z" fill="#6e4934"/>
+  </g>
+
+  <g filter="url(#shadow)" transform="translate(766 397) rotate(-4)">
+    <path d="M0 20 172 0l16 122L13 132Z" fill="#fffaf1" stroke="#d8cab5" stroke-width="2"/>
+    <path d="m188 0 172 20-13 112-175-10Z" fill="#fffaf1" stroke="#d8cab5" stroke-width="2"/>
+    <path d="M187 0 172 122" stroke="#cbbca6" stroke-width="4"/>
+    <path d="M32 49h112M30 70h116M28 91h103M220 49h112M216 70h118M212 91h95" stroke="#d8cab5" stroke-linecap="round" stroke-width="5"/>
+    <path d="M180 3h16v156l-8-12-8 12Z" fill="#c96f4f"/>
+  </g>
+
+  <g transform="translate(923 88)">
+    <rect width="142" height="104" fill="#ece4d7" stroke="#8e7258" stroke-width="11"/>
+    <path d="M26 33h75M42 53h69M31 73h52" stroke="#8da08b" stroke-linecap="round" stroke-width="6"/>
+  </g>
+  <text x="75" y="552" fill="#f7ead8" font-family="system-ui,sans-serif" font-size="19" font-weight="650" letter-spacing="2">shiori-dana.yhay81.com</text>
+</svg>

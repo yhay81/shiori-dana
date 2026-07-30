@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://shiori-dana.yhay81.com/sitemap.xml
